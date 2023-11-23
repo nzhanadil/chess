@@ -79,14 +79,5 @@ public class AddressBook {
             System.out.println("Contact not found for the name: " + searchName);
         }
     }
-    /*
-    some notes
-    some notes
-    some notes
-    some notes
-    some notes
-    some notes
-
-     */
 }
 
