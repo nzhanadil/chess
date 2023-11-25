@@ -36,7 +36,7 @@ public class Board {
     public static void createBoard(){
         for(int i = 0; i<8; i++){
             board[1][i] = new Pawn("white", 1, i);
-            board[6][i] = new Pawn("black", 1, i);
+            board[6][i] = new Pawn("black", 6, i);
         }
 
         board[0][0] = new Rook("white", 0, 0);
@@ -58,21 +58,26 @@ public class Board {
         board[7][7] = new Rook("black", 7, 7);
     }
 
-    public void moveFigure(int fromX, int fromY, int toX, int toY){
-        board[toY][toX] = board[fromY][fromX];
-        board[fromY][fromX].setLocation(toY, toX);
-        board[fromY][fromX] = null;
+    public static void moveFigure(int fromRow, int fromCol, int toRow, int toCol){
+        board[toRow][toCol] = board[fromRow][toCol];
+        board[fromRow][fromCol].setLocation(toRow, toCol);
+        board[fromRow][fromCol] = null;
     }
 
     public static void makeMove(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Player "+currentPlayer+1+"'s turn. \n Please enter your move(EX: a2 a3)");
         String[] move = scanner.nextLine().split(" ");
-        int fromX = move[0].charAt(1);
-        int fromY = move[0].charAt(0);
+        int fromRow = ((int) move[0].charAt(1))-1;
+        int fromCol = move[0].charAt(0);
+        int toRow = move[1].charAt(1);
+        int toCol = move[1].charAt(0);
+
+
+        moveFigure(fromRow, fromCol, toRow, toCol);
     }
 
-    public static boolean isValidInput(){
+    public static boolean isValidInput(int fromRow, int fromCol, int toRow, int toCol){
         return true;
     }
 
