@@ -29,5 +29,5 @@ abstract public class Piece {
 
     public abstract String getSymbol();
 
-    public abstract boolean isValidMove();
+    public abstract boolean isValidMove(int toRow, int toCol);
 }
