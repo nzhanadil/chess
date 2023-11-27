@@ -13,6 +13,7 @@ public class Queen extends Piece{
 
     @Override
     public boolean isValidMove(int toRow, int toCol) {
+
         return false;
     }
 }

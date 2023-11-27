@@ -13,6 +13,6 @@ public class Rook extends Piece{
 
     @Override
     public boolean isValidMove(int toRow, int toCol) {
-        return false;
+        return (getRow()==toRow && getCol() != toCol) || (getCol()==toCol && getRow() != toRow);
     }
 }
