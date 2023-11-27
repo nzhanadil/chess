@@ -13,7 +13,6 @@ public class Queen extends Piece{
 
     @Override
     public boolean isValidMove(int toRow, int toCol) {
-
-        return false;
+        return (Math.abs(toRow-getRow()) == Math.abs(toCol-getCol()) || (toCol == getCol() || toRow == getRow()));
     }
 }

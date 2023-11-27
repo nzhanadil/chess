@@ -13,6 +13,6 @@ public class Knight extends Piece{
 
     @Override
     public boolean isValidMove(int toRow, int toCol) {
-        return false;
+        return (Math.abs(toCol-getCol()) + Math.abs(toRow-getRow()) == 3);
     }
 }
