@@ -30,4 +30,6 @@ abstract public class Piece {
     public abstract String getSymbol();
 
     public abstract boolean isValidMove(int toRow, int toCol);
+
+    //TODO - method for checking if there is no elements between A and B
 }

@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class Board {
     static Piece[][] board = new Piece[8][8];
     static int currentPlayer = 0; // 0 for white, 1 for black
+    static boolean gameOver = false;
 
     public static void changePlayer(){
         currentPlayer = currentPlayer==0 ? 1: 0;
@@ -25,12 +26,6 @@ public class Board {
             }
             System.out.println();
         }
-    }
-
-    public static void main(String[] args) {
-        createBoard();
-        printBoard();
-        makeMove();
     }
 
     public static void createBoard(){
@@ -66,16 +61,22 @@ public class Board {
 
     public static void makeMove(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Player "+currentPlayer+1+"'s turn. \n Please enter your move(EX: a2 a3)");
+        System.out.println("Player "+(currentPlayer+1)+"'s turn.\nPlease enter your move(EX: a2 a3)");
         String[] move = scanner.nextLine().split(" ");
 
         int fromRow = move[0].charAt(1)-'0'-1;
         int fromCol = move[0].charAt(0)-'a';
         int toRow = move[1].charAt(1)-'0'-1;
         int toCol = move[1].charAt(0)-'a';
+
         if(!isValidInput(fromRow, fromCol, toRow, toCol)) return;
+        if(!board[fromRow][fromCol].isValidMove(toRow, toCol)){
+            System.out.println("This is not valid move, please try again");
+            return;
+        }
         moveFigure(fromRow, fromCol, toRow, toCol);
         changePlayer();
+        printBoard();
     }
 
     public static boolean isValidInput(int fromRow, int fromCol, int toRow, int toCol){
@@ -83,7 +84,20 @@ public class Board {
             System.out.println("This is invalid input, please try again");
             return false;
         }
+        if(fromRow==toRow && fromCol==toCol){
+            System.out.println("This is not valid move, please try again");
+            return false;
+        }
         return true;
+    }
+
+    public static void main(String[] args) {
+        createBoard();
+        printBoard();
+        while (!gameOver){
+            makeMove();
+        }
+
     }
 
 
