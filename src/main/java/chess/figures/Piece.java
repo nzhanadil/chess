@@ -8,7 +8,7 @@ import java.util.List;
 abstract public class Piece extends Board {
     String color;
     int row, col;
-    List<int[]> allAvailableMoves = new ArrayList<>();
+    List<int[]> allAvailableMoves;
 
     public Piece(String color, int row, int col){
         this.color = color;

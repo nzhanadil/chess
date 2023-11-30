@@ -2,6 +2,8 @@ package chess;
 
 import chess.figures.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Board {
@@ -58,6 +60,7 @@ public class Board {
     public static void moveFigure(int fromRow, int fromCol, int toRow, int toCol){
         board[toRow][toCol] = board[fromRow][toCol];
         board[fromRow][fromCol].setLocation(toRow, toCol);
+        board[fromRow][fromCol].setAllAvailableMoves();
         board[fromRow][fromCol] = null;
     }
 
@@ -96,8 +99,13 @@ public class Board {
     public static void main(String[] args) {
         createBoard();
         printBoard();
-        while (!gameOver){
-            makeMove();
+//        while (!gameOver){
+//            makeMove();
+//        }
+        board[7][6].setAllAvailableMoves();
+        List<int[]> l = board[7][6].getAllAvailableMoves();
+        for(int[] arr: l){
+            System.out.println(Arrays.toString(arr));
         }
 
     }
