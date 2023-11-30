@@ -1,5 +1,7 @@
 package chess.figures;
 
+import java.util.List;
+
 public class King extends Piece{
 
     public King(String color, int row, int col) {
@@ -14,5 +16,10 @@ public class King extends Piece{
     @Override
     public boolean isValidMove(int toRow, int toCol) {
         return Math.abs(toCol-getCol())<=1 && Math.abs(toRow-getRow())<=1;
+    }
+
+    @Override
+    public void setAllAvailableMoves() {
+
     }
 }

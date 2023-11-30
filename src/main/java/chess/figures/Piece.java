@@ -1,8 +1,14 @@
 package chess.figures;
 
-abstract public class Piece {
+import chess.Board;
+
+import java.util.ArrayList;
+import java.util.List;
+
+abstract public class Piece extends Board {
     String color;
     int row, col;
+    List<int[]> allAvailableMoves = new ArrayList<>();
 
     public Piece(String color, int row, int col){
         this.color = color;
@@ -27,9 +33,22 @@ abstract public class Piece {
         this.col = col;
     }
 
+    public List<int[]> getAllAvailableMoves(){
+        return allAvailableMoves;
+    }
+
     public abstract String getSymbol();
 
-    public abstract boolean isValidMove(int toRow, int toCol);
+    public boolean isValidMove(int toRow, int toCol){
+        for(int[] arr : getAllAvailableMoves()){
+            if(arr[0] == toRow && arr[1] == toCol){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public abstract void setAllAvailableMoves();
 
     //TODO - method for checking if there is no elements between A and B
 }

@@ -26,4 +26,10 @@ public class Pawn extends Piece{
         }
         return false;
     }
+
+    @Override
+    public void setAllAvailableMoves() {
+
+    }
+
 }
