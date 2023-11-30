@@ -1,6 +1,10 @@
 package chess.figures;
 
-public class Knight extends Piece{
+import chess.Moves;
+
+public class Knight extends Piece implements Moves {
+
+    private final int[][] directions = {{-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}};
 
     public Knight(String color, int row, int col) {
         super(color, row, col);
@@ -12,7 +16,8 @@ public class Knight extends Piece{
     }
 
     @Override
-    public boolean isValidMove(int toRow, int toCol) {
-        return (Math.abs(toCol-getCol()) + Math.abs(toRow-getRow()) == 3);
+    public void setAllAvailableMoves() {
+        allAvailableMoves = shortMoves(directions, getRow(), getCol());
     }
+
 }

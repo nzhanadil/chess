@@ -1,6 +1,8 @@
 package chess.figures;
 
-public class Pawn extends Piece{
+import chess.Moves;
+
+public class Pawn extends Piece implements Moves {
     boolean hasMoved;
 
     public Pawn(String color, int row, int col) {
@@ -26,4 +28,10 @@ public class Pawn extends Piece{
         }
         return false;
     }
+
+    @Override
+    public void setAllAvailableMoves() {
+
+    }
+
 }

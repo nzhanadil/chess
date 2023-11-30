@@ -1,6 +1,10 @@
 package chess.figures;
 
-public class Rook extends Piece{
+import chess.Moves;
+
+public class Rook extends Piece implements Moves{
+
+    private final int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
     public Rook(String color, int row, int col) {
         super(color, row, col);
@@ -12,7 +16,8 @@ public class Rook extends Piece{
     }
 
     @Override
-    public boolean isValidMove(int toRow, int toCol) {
-        return (getRow()==toRow || getCol()==toCol);
+    public void setAllAvailableMoves() {
+        allAvailableMoves = longMoves(directions, getRow(), getCol());
     }
+
 }

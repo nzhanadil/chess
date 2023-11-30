@@ -1,6 +1,10 @@
 package chess.figures;
 
-public class Bishop extends Piece{
+import chess.Moves;
+
+public class Bishop extends Piece implements Moves {
+
+    private final int[][] directions = {{1, 1}, {-1, -1}, {1, -1}, {-1, 1}};
 
     public Bishop(String color, int row, int col) {
         super(color, row, col);
@@ -12,7 +16,7 @@ public class Bishop extends Piece{
     }
 
     @Override
-    public boolean isValidMove(int toRow, int toCol) {
-        return (Math.abs(toCol-getCol()) == Math.abs(toRow-getRow()));
+    public void setAllAvailableMoves() {
+        allAvailableMoves = longMoves(directions, getRow(), getCol());
     }
 }
