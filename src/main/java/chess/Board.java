@@ -1,13 +1,16 @@
 package chess;
 
 import chess.figures.*;
+
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Board {
     public static Piece[][] board = new Piece[8][8];
     static int currentPlayer = 0; // 0 for white, 1 for black
-    static final String white = "white";
-    static final String black = "black";
+    public static final String white = "white";
+    public static final String black = "black";
     static boolean gameOver = false;
 
     public static void changePlayer(){
@@ -57,7 +60,6 @@ public class Board {
     public static void moveFigure(int fromRow, int fromCol, int toRow, int toCol){
         board[toRow][toCol] = board[fromRow][toCol];
         board[fromRow][fromCol].setLocation(toRow, toCol);
-        board[fromRow][fromCol].setAllAvailableMoves();
         board[fromRow][fromCol] = null;
     }
 
@@ -96,14 +98,17 @@ public class Board {
     public static void main(String[] args) {
         createBoard();
         printBoard();
-        while (!gameOver){
-            makeMove();
-        }
-//        board[7][6].setAllAvailableMoves();
-//        List<int[]> l = board[7][6].getAllAvailableMoves();
-//        for(int[] arr: l){
-//            System.out.println(Arrays.toString(arr));
+//        while (!gameOver){
+//            makeMove();
 //        }
+        moveFigure(6,6,5,6);
+        moveFigure(0,0,4,5);
+        printBoard();
+        board[5][6].setAllAvailableMoves();
+        List<int[]> l = board[5][6].getAllAvailableMoves();
+        for(int[] arr: l){
+            System.out.println(Arrays.toString(arr));
+        }
 
     }
 
