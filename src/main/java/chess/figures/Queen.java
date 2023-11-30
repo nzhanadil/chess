@@ -16,11 +16,6 @@ public class Queen extends Piece implements Moves {
     }
 
     @Override
-    public boolean isValidMove(int toRow, int toCol) {
-        return (Math.abs(toRow-getRow()) == Math.abs(toCol-getCol()) || (toCol == getCol() || toRow == getRow()));
-    }
-
-    @Override
     public void setAllAvailableMoves() {
         allAvailableMoves = longMoves(directions, getRow(), getCol());
     }

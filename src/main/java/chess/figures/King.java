@@ -4,6 +4,8 @@ import chess.Moves;
 
 public class King extends Piece implements Moves {
 
+    private final int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
+
     public King(String color, int row, int col) {
         super(color, row, col);
     }
@@ -15,6 +17,6 @@ public class King extends Piece implements Moves {
 
     @Override
     public void setAllAvailableMoves() {
-
+        allAvailableMoves = shortMoves(directions, getRow(), getCol());
     }
 }

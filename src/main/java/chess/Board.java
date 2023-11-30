@@ -1,9 +1,6 @@
 package chess;
 
 import chess.figures.*;
-
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class Board {
@@ -99,14 +96,14 @@ public class Board {
     public static void main(String[] args) {
         createBoard();
         printBoard();
-//        while (!gameOver){
-//            makeMove();
-//        }
-        board[7][6].setAllAvailableMoves();
-        List<int[]> l = board[7][6].getAllAvailableMoves();
-        for(int[] arr: l){
-            System.out.println(Arrays.toString(arr));
+        while (!gameOver){
+            makeMove();
         }
+//        board[7][6].setAllAvailableMoves();
+//        List<int[]> l = board[7][6].getAllAvailableMoves();
+//        for(int[] arr: l){
+//            System.out.println(Arrays.toString(arr));
+//        }
 
     }
 
