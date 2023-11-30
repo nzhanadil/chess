@@ -4,6 +4,7 @@ import chess.Board;
 import java.util.List;
 
 abstract public class Piece extends Board {
+    boolean hasMoved;
     String color;
     int row, col;
     List<int[]> allAvailableMoves;
@@ -12,6 +13,7 @@ abstract public class Piece extends Board {
         this.color = color;
         this.row = row;
         this.col = col;
+        this.hasMoved = false;
     }
 
     public String getColor() {
@@ -27,6 +29,7 @@ abstract public class Piece extends Board {
     }
 
     public void setLocation(int row, int col){
+        this.hasMoved = true;
         this.row = row;
         this.col = col;
     }
