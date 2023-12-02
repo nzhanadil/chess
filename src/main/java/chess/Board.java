@@ -2,6 +2,7 @@ package chess;
 
 import chess.figures.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -11,7 +12,11 @@ public class Board {
     static int currentPlayer = 0; // 0 for white, 1 for black
     public static final String white = "white";
     public static final String black = "black";
-    static boolean gameOver = false;
+    private static boolean isGameOver = false;
+    private static boolean isCheck = false;
+    private static Piece whiteKing;
+    private static Piece blackKing;
+    private static List<Piece> ableToBlockCheckPieces = new ArrayList<>();
 
     public static void changePlayer(){
         currentPlayer = currentPlayer==0 ? 1: 0;
@@ -32,30 +37,33 @@ public class Board {
         }
     }
 
-//    public static void createBoard(){
-//        for(int i = 0; i<8; i++){
-//            board[1][i] = new Pawn(white, 1, i);
-//            board[6][i] = new Pawn(black, 6, i);
-//        }
-//
-//        board[0][0] = new Rook(white, 0, 0);
-//        board[0][1] = new Knight(white, 0, 1);
-//        board[0][2] = new Bishop(white, 0, 2);
-//        board[0][3] = new Queen(white, 0, 3);
-//        board[0][4] = new King(white, 0, 4);
-//        board[0][5] = new Bishop(white, 0, 5);
-//        board[0][6] = new Knight(white, 0, 6);
-//        board[0][7] = new Rook(white, 0, 7);
-//
-//        board[7][0] = new Rook(black, 7, 0);
-//        board[7][1] = new Knight(black, 7, 1);
-//        board[7][2] = new Bishop(black, 7, 2);
-//        board[7][3] = new Queen(black, 7, 3);
-//        board[7][4] = new King(black, 7, 4);
-//        board[7][5] = new Bishop(black, 7, 5);
-//        board[7][6] = new Knight(black, 7, 6);
-//        board[7][7] = new Rook(black, 7, 7);
-//    }
+    public static void createBoard(){
+        for(int i = 0; i<8; i++){
+            board[1][i] = new Pawn(white, 1, i);
+            board[6][i] = new Pawn(black, 6, i);
+        }
+
+        board[0][0] = new Rook(white, 0, 0);
+        board[0][1] = new Knight(white, 0, 1);
+        board[0][2] = new Bishop(white, 0, 2);
+        board[0][3] = new Queen(white, 0, 3);
+        board[0][4] = new King(white, 0, 4);
+        board[0][5] = new Bishop(white, 0, 5);
+        board[0][6] = new Knight(white, 0, 6);
+        board[0][7] = new Rook(white, 0, 7);
+
+        board[7][0] = new Rook(black, 7, 0);
+        board[7][1] = new Knight(black, 7, 1);
+        board[7][2] = new Bishop(black, 7, 2);
+        board[7][3] = new Queen(black, 7, 3);
+        board[7][4] = new King(black, 7, 4);
+        board[7][5] = new Bishop(black, 7, 5);
+        board[7][6] = new Knight(black, 7, 6);
+        board[7][7] = new Rook(black, 7, 7);
+
+        whiteKing = board[0][4];
+        blackKing = board[7][4];
+    }
 
     public static void moveFigure(int fromRow, int fromCol, int toRow, int toCol){
         board[toRow][toCol] = board[fromRow][toCol];
@@ -74,10 +82,29 @@ public class Board {
         int toCol = move[1].charAt(0)-'a';
 
         if(!isValidInput(fromRow, fromCol, toRow, toCol)) return;
-        if(!board[fromRow][fromCol].isValidMove(toRow, toCol)){
+
+        Piece currentPiece = board[fromRow][fromCol];
+        currentPiece.setAllAvailableMoves();
+
+        if(isGameOver){
+            System.out.println("GAME IS OVER");
+            System.exit(1);
+        }
+
+        if(isCheck){
+            if(!(currentPiece instanceof King)){
+                System.out.println("Your King is under Check, you can move only with your King");
+                return;
+            }
+        }
+
+        if(!currentPiece.isValidMove(toRow, toCol)){
             System.out.println("This is not valid move, please try again");
             return;
         }
+
+        isCheck = isCheck(currentPiece);
+
         moveFigure(fromRow, fromCol, toRow, toCol);
         changePlayer();
         printBoard();
@@ -88,6 +115,10 @@ public class Board {
             System.out.println("This is invalid input, please try again");
             return false;
         }
+        if(board[fromRow][fromCol]==null){
+            System.out.println("This is not figure, please try again");
+            return false;
+        }
         if(fromRow==toRow && fromCol==toCol){
             System.out.println("This is not valid move, please try again");
             return false;
@@ -95,52 +126,50 @@ public class Board {
         return true;
     }
 
-    public static void main(String[] args) {
-        createBoard();
-        printBoard();
-//        while (!gameOver){
-//            makeMove();
-//        }
-//        moveFigure(6,6,5,6);
-//        moveFigure(0,0,4,5);
-//        printBoard();
-//        board[5][6].setAllAvailableMoves();
+    public static boolean isCheck(Piece movedPiece){
+        Piece king = movedPiece.getColor().equals(white) ? whiteKing : blackKing;
 
-        board[7][4].setAllAvailableMoves();
+        movedPiece.setAllAvailableMoves();
 
-        List<int[]> moves = board[7][4].getAllAvailableMoves();
+        king.setAllAvailableMoves();
+        if(king.getAllAvailableMoves().size() == 0){
+            if(!canAnyOtherFigureCloseCheck(movedPiece)){
+                isGameOver = true;
+            }
+        }
+        return movedPiece.isValidMove(king.getRow(), king.getCol());
+    }
 
-        for(int[] move : moves){
-            System.out.println(Arrays.toString(move));
+    public static boolean canAnyOtherFigureCloseCheck(Piece movedPiece){
+
+        boolean result = false;
+
+        for(Piece[] row : board){
+            for(Piece piece : row){
+                if(piece!=null && (!piece.getColor().equals(movedPiece.getColor()))){
+                    piece.setAllAvailableMoves();
+                    for(int[] pieceMove : piece.getAllAvailableMoves()){
+                        for(int[] movedPieceMove : movedPiece.getAllAvailableMoves()){
+                            if(Arrays.equals(pieceMove, movedPieceMove)){
+                                ableToBlockCheckPieces.add(piece);
+                                result =  true;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-
-
+        return result;
     }
 
-    public static void createBoard(){
-//        for(int i = 0; i<8; i++){
-//            board[1][i] = new Pawn(white, 1, i);
-//            board[6][i] = new Pawn(black, 6, i);
-//        }
-
-//        board[0][0] = new Rook(white, 0, 0);
-//        board[0][1] = new Knight(white, 0, 1);
-//        board[0][2] = new Bishop(white, 0, 2);
-//        board[0][3] = new Queen(white, 0, 3);
-//        board[0][4] = new King(white, 0, 4);
-//        board[0][5] = new Bishop(white, 0, 5);
-//        board[0][6] = new Knight(white, 0, 6);
-
-        board[6][2] = new Pawn(white, 6, 2);
-        board[0][7] = new Rook(white, 0, 7);
-
-
-        //board[7][3] = new Queen(white, 7, 3);
-        board[7][4] = new King(black, 7, 4);
-        board[7][5] = new Bishop(white, 7, 5);
-
+    public static void main(String[] args) {
+        createBoard();
+        System.out.println(whiteKing.getAllAvailableMoves().size()==0);
+        printBoard();
+        while (true){
+            makeMove();
+        }
     }
-
 
 }
