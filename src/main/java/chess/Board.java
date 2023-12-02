@@ -32,30 +32,30 @@ public class Board {
         }
     }
 
-    public static void createBoard(){
-        for(int i = 0; i<8; i++){
-            board[1][i] = new Pawn(white, 1, i);
-            board[6][i] = new Pawn(black, 6, i);
-        }
-
-        board[0][0] = new Rook(white, 0, 0);
-        board[0][1] = new Knight(white, 0, 1);
-        board[0][2] = new Bishop(white, 0, 2);
-        board[0][3] = new Queen(white, 0, 3);
-        board[0][4] = new King(white, 0, 4);
-        board[0][5] = new Bishop(white, 0, 5);
-        board[0][6] = new Knight(white, 0, 6);
-        board[0][7] = new Rook(white, 0, 7);
-
-        board[7][0] = new Rook(black, 7, 0);
-        board[7][1] = new Knight(black, 7, 1);
-        board[7][2] = new Bishop(black, 7, 2);
-        board[7][3] = new Queen(black, 7, 3);
-        board[7][4] = new King(black, 7, 4);
-        board[7][5] = new Bishop(black, 7, 5);
-        board[7][6] = new Knight(black, 7, 6);
-        board[7][7] = new Rook(black, 7, 7);
-    }
+//    public static void createBoard(){
+//        for(int i = 0; i<8; i++){
+//            board[1][i] = new Pawn(white, 1, i);
+//            board[6][i] = new Pawn(black, 6, i);
+//        }
+//
+//        board[0][0] = new Rook(white, 0, 0);
+//        board[0][1] = new Knight(white, 0, 1);
+//        board[0][2] = new Bishop(white, 0, 2);
+//        board[0][3] = new Queen(white, 0, 3);
+//        board[0][4] = new King(white, 0, 4);
+//        board[0][5] = new Bishop(white, 0, 5);
+//        board[0][6] = new Knight(white, 0, 6);
+//        board[0][7] = new Rook(white, 0, 7);
+//
+//        board[7][0] = new Rook(black, 7, 0);
+//        board[7][1] = new Knight(black, 7, 1);
+//        board[7][2] = new Bishop(black, 7, 2);
+//        board[7][3] = new Queen(black, 7, 3);
+//        board[7][4] = new King(black, 7, 4);
+//        board[7][5] = new Bishop(black, 7, 5);
+//        board[7][6] = new Knight(black, 7, 6);
+//        board[7][7] = new Rook(black, 7, 7);
+//    }
 
     public static void moveFigure(int fromRow, int fromCol, int toRow, int toCol){
         board[toRow][toCol] = board[fromRow][toCol];
@@ -101,15 +101,48 @@ public class Board {
 //        while (!gameOver){
 //            makeMove();
 //        }
-        moveFigure(6,6,5,6);
-        moveFigure(0,0,4,5);
-        printBoard();
-        board[5][6].setAllAvailableMoves();
-        List<int[]> l = board[5][6].getAllAvailableMoves();
-        for(int[] arr: l){
-            System.out.println(Arrays.toString(arr));
+//        moveFigure(6,6,5,6);
+//        moveFigure(0,0,4,5);
+//        printBoard();
+//        board[5][6].setAllAvailableMoves();
+
+        board[7][4].setAllAvailableMoves();
+
+        List<int[]> moves = board[7][4].getAllAvailableMoves();
+
+        for(int[] move : moves){
+            System.out.println(Arrays.toString(move));
         }
 
+
+
+    }
+
+    public static void createBoard(){
+//        for(int i = 0; i<8; i++){
+//            board[1][i] = new Pawn(white, 1, i);
+//            board[6][i] = new Pawn(black, 6, i);
+//        }
+
+//        board[0][0] = new Rook(white, 0, 0);
+//        board[0][1] = new Knight(white, 0, 1);
+//        board[0][2] = new Bishop(white, 0, 2);
+//        board[0][3] = new Queen(white, 0, 3);
+//        board[0][4] = new King(white, 0, 4);
+//        board[0][5] = new Bishop(white, 0, 5);
+//        board[0][6] = new Knight(white, 0, 6);
+//        board[0][7] = new Rook(white, 0, 7);
+
+        board[7][0] = new Rook(black, 7, 0);
+        board[7][1] = new Knight(black, 7, 1);
+        board[7][2] = new Bishop(black, 7, 2);
+
+        board[7][3] = new Queen(white, 7, 3);
+        board[7][4] = new King(black, 7, 4);
+        board[7][5] = new Bishop(white, 7, 5);
+
+        board[7][6] = new Knight(black, 7, 6);
+        board[7][7] = new Rook(black, 7, 7);
     }
 
 

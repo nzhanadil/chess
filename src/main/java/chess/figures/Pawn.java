@@ -1,7 +1,6 @@
 package chess.figures;
 
 import chess.Board;
-import java.util.ArrayList;
 
 public class Pawn extends Piece {
 
@@ -20,7 +19,8 @@ public class Pawn extends Piece {
         int row = getRow();
         int col = getCol();
 
-        allAvailableMoves = new ArrayList<>();
+        allAvailableMoves.clear();
+        allBackedUpPieces.clear();
 
         int forwardRow = row + dir;
 
@@ -30,13 +30,21 @@ public class Pawn extends Piece {
             }
 
             int leftCol = col - 1;
-            if (leftCol >= 0 && board[forwardRow][leftCol] != null && !board[forwardRow][leftCol].getColor().equals(getColor())) {
-                allAvailableMoves.add(new int[]{forwardRow, leftCol});
+            if (leftCol >= 0 && board[forwardRow][leftCol] != null) {
+                if (!board[forwardRow][leftCol].getColor().equals(getColor())) {
+                    allAvailableMoves.add(new int[]{forwardRow, leftCol});
+                } else {
+                    allBackedUpPieces.add(board[forwardRow][leftCol]);
+                }
             }
 
             int rightCol = col + 1;
-            if (rightCol < 8 && board[forwardRow][rightCol] != null && !board[forwardRow][rightCol].getColor().equals(getColor())) {
-                allAvailableMoves.add(new int[]{forwardRow, rightCol});
+            if (rightCol < 8 && board[forwardRow][rightCol] != null) {
+                if (!board[forwardRow][rightCol].getColor().equals(getColor())) {
+                    allAvailableMoves.add(new int[]{forwardRow, rightCol});
+                } else {
+                    allBackedUpPieces.add(board[forwardRow][rightCol]);
+                }
             }
 
             if (!hasMoved && board[forwardRow][col] == null && board[row + 2 * dir][col] == null) {
