@@ -1,15 +1,18 @@
 package chess.figures;
 
 import chess.Board;
+
+import java.util.ArrayList;
 import java.util.List;
 
 abstract public class Piece extends Board {
     boolean hasMoved;
     String color;
     int row, col;
-    List<int[]> allAvailableMoves;
+    List<int[]> allAvailableMoves = new ArrayList<>();
+    List<Piece> allBackedUpPieces = new ArrayList<>();
 
-    public Piece(String color, int row, int col){
+    public Piece(String color, int row, int col) {
         this.color = color;
         this.row = row;
         this.col = col;
@@ -28,19 +31,23 @@ abstract public class Piece extends Board {
         return row;
     }
 
-    public void setLocation(int row, int col){
+    public void setLocation(int row, int col) {
         this.hasMoved = true;
         this.row = row;
         this.col = col;
     }
 
-    public List<int[]> getAllAvailableMoves(){
+    public List<int[]> getAllAvailableMoves() {
         return allAvailableMoves;
     }
 
-    public boolean isValidMove(int toRow, int toCol){
-        for(int[] arr : getAllAvailableMoves()){
-            if(arr[0] == toRow && arr[1] == toCol){
+    public List<Piece> getAllBackedUpPieces(){
+        return allBackedUpPieces;
+    }
+
+    public boolean isValidMove(int toRow, int toCol) {
+        for (int[] arr : getAllAvailableMoves()) {
+            if (arr[0] == toRow && arr[1] == toCol) {
                 return true;
             }
         }
