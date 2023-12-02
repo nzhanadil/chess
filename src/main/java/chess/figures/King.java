@@ -1,5 +1,6 @@
 package chess.figures;
 
+import chess.Board;
 import chess.Moves;
 
 import java.util.Arrays;
@@ -31,15 +32,32 @@ public class King extends Piece implements Moves {
             int y = getCol() + dCol;
 
             if (x >= 0 && x < 8 && y >= 0 && y < 8) {
-                if (board[x][y] == null) {
-                    allAvailableMoves.add(new int[]{x, y});
-                } else {
-                    if (!board[x][y].getColor().equals(getColor())) {
-                        allAvailableMoves.add(new int[]{x, y});
-                    } else {
-                        allBackedUpPieces.add(board[x][y]);
+                int pawnDir = getColor().equals(Board.black) ? -1: 1;
+
+                int [] m = {1, -1};
+
+                boolean flag = true;
+
+                for(int dY : m){
+                    Piece piece = board[x+pawnDir][y+dY];
+                    if(piece!=null && !(piece.getColor().equals(getColor())) && (piece instanceof Pawn)){
+                        flag = false;
                     }
                 }
+
+                if(flag){
+                    if (board[x][y] == null) {
+                        allAvailableMoves.add(new int[]{x, y});
+                    } else {
+                        if (!board[x][y].getColor().equals(getColor())) {
+                            allAvailableMoves.add(new int[]{x, y});
+                        } else {
+                            allBackedUpPieces.add(board[x][y]);
+                        }
+                    }
+                }
+
+
             }
         }
 

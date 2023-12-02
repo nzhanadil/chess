@@ -42,7 +42,6 @@ public class Rook extends Piece implements Moves {
                 y += dCol;
             }
         }
-
     }
 
 }

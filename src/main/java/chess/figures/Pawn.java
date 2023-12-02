@@ -46,6 +46,7 @@ public class Pawn extends Piece {
                     allBackedUpPieces.add(board[forwardRow][rightCol]);
                 }
             }
+            hasMoved = true;
 
             if (!hasMoved && board[forwardRow][col] == null && board[row + 2 * dir][col] == null) {
                 allAvailableMoves.add(new int[]{row + 2 * dir, col});
