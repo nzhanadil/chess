@@ -131,18 +131,15 @@ public class Board {
 //        board[0][4] = new King(white, 0, 4);
 //        board[0][5] = new Bishop(white, 0, 5);
 //        board[0][6] = new Knight(white, 0, 6);
-//        board[0][7] = new Rook(white, 0, 7);
 
-        board[7][0] = new Rook(black, 7, 0);
-        board[7][1] = new Knight(black, 7, 1);
-        board[7][2] = new Bishop(black, 7, 2);
+        board[6][2] = new Pawn(white, 6, 2);
+        board[0][7] = new Rook(white, 0, 7);
 
-        board[7][3] = new Queen(white, 7, 3);
+
+        //board[7][3] = new Queen(white, 7, 3);
         board[7][4] = new King(black, 7, 4);
         board[7][5] = new Bishop(white, 7, 5);
 
-        board[7][6] = new Knight(black, 7, 6);
-        board[7][7] = new Rook(black, 7, 7);
     }
 
 
