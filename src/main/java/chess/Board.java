@@ -167,9 +167,9 @@ public class Board {
     public static void main(String[] args) {
         createBoard();
         printBoard();
-//        while (true){
-//            makeMove();
-//        }
+        while (true){
+            makeMove();
+        }
     }
 
 }
