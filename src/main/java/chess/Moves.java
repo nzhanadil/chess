@@ -1,13 +1,16 @@
 package chess;
 
-import java.util.ArrayList;
-import java.util.List;
+import chess.figures.Piece;
+
 import static chess.Board.board;
 
 public interface Moves {
 
-    default List<int[]> longMoves(int[][] directions, int row, int col){
-        List<int[]> allAvailableMoves = new ArrayList<>();
+    default void setAllAvailableMovesForLongMovingPieces(int[][] directions, int row, int col) {
+        Piece currentPiece = board[row][col];
+
+        currentPiece.getAllAvailableMoves().clear();
+        currentPiece.getAllBackedUpPieces().clear();
 
         for (int[] dir : directions) {
             int dRow = dir[0];
@@ -17,10 +20,12 @@ public interface Moves {
 
             while (x >= 0 && x < 8 && y >= 0 && y < 8) {
                 if (board[x][y] == null) {
-                    allAvailableMoves.add(new int[]{x, y});
+                    currentPiece.getAllAvailableMoves().add(new int[]{x, y});
                 } else {
-                    if (!board[x][y].getColor().equals(board[row][col].getColor())) {
-                        allAvailableMoves.add(new int[]{x, y});
+                    if (!board[x][y].getColor().equals(currentPiece.getColor())) {
+                        currentPiece.getAllAvailableMoves().add(new int[]{x, y});
+                    } else {
+                        currentPiece.getAllBackedUpPieces().add(board[x][y]);
                     }
                     break;
                 }
@@ -28,11 +33,13 @@ public interface Moves {
                 y += dCol;
             }
         }
-        return  allAvailableMoves;
     }
 
-    default List<int[]> shortMoves(int[][] directions, int row, int col){
-        List<int[]> allAvailableMoves = new ArrayList<>();
+    default void setAllAvailableMovesForShortMovingPieces(int[][] directions, int row, int col) {
+        Piece currentPiece = board[row][col];
+
+        currentPiece.getAllAvailableMoves().clear();
+        currentPiece.getAllBackedUpPieces().clear();
 
         for (int[] dir : directions) {
             int dRow = dir[0];
@@ -40,17 +47,18 @@ public interface Moves {
             int x = row + dRow;
             int y = col + dCol;
 
-            if(x >= 0 && x < 8 && y >= 0 && y < 8){
+            if (x >= 0 && x < 8 && y >= 0 && y < 8) {
                 if (board[x][y] == null) {
-                    allAvailableMoves.add(new int[]{x, y});
+                    currentPiece.getAllAvailableMoves().add(new int[]{x, y});
                 } else {
-                    if (!board[x][y].getColor().equals(board[row][col].getColor())) {
-                        allAvailableMoves.add(new int[]{x, y});
+                    if (!board[x][y].getColor().equals(currentPiece.getColor())) {
+                        currentPiece.getAllAvailableMoves().add(new int[]{x, y});
+                    } else {
+                        currentPiece.getAllBackedUpPieces().add(board[x][y]);
                     }
                 }
             }
         }
-        return  allAvailableMoves;
     }
 
 }

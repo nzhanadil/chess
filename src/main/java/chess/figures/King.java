@@ -3,6 +3,7 @@ package chess.figures;
 import chess.Board;
 import chess.Moves;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class King extends Piece implements Moves {
@@ -20,44 +21,21 @@ public class King extends Piece implements Moves {
 
     @Override
     public void setAllAvailableMoves() {
-        //allAvailableMoves = shortMoves(directions, getRow(), getCol());
+        setAllAvailableMovesForShortMovingPieces(directions, getRow(), getCol());
 
-        allAvailableMoves.clear();
-        allBackedUpPieces.clear();
+        int pawnDir = getColor().equals(Board.black) ? -1: 1;
+        int [] changeInY = {1, -1};
 
-        for (int[] dir : directions) {
-            int dRow = dir[0];
-            int dCol = dir[1];
-            int x = getRow() + dRow;
-            int y = getCol() + dCol;
+        for(int[] coordinates : new ArrayList<>(getAllAvailableMoves())){
+            for(int dY : changeInY){
+                int x = coordinates[0]+pawnDir, y = coordinates[1]+dY;
 
-            if (x >= 0 && x < 8 && y >= 0 && y < 8) {
-                int pawnDir = getColor().equals(Board.black) ? -1: 1;
+                if(x>=0 && x<8 && y>=0 && y<8){
 
-                int [] m = {1, -1};
-
-                boolean flag = true;
-
-                for(int dY : m){
-                    Piece piece = board[x+pawnDir][y+dY];
-                    if(piece!=null && !(piece.getColor().equals(getColor())) && (piece instanceof Pawn)){
-                        flag = false;
+                    if(board[x][y]!=null && !(board[x][y].getColor().equals(getColor())) && (board[x][y] instanceof Pawn)){
+                        getAllAvailableMoves().remove(coordinates);
                     }
                 }
-
-                if(flag){
-                    if (board[x][y] == null) {
-                        allAvailableMoves.add(new int[]{x, y});
-                    } else {
-                        if (!board[x][y].getColor().equals(getColor())) {
-                            allAvailableMoves.add(new int[]{x, y});
-                        } else {
-                            allBackedUpPieces.add(board[x][y]);
-                        }
-                    }
-                }
-
-
             }
         }
 
@@ -75,9 +53,7 @@ public class King extends Piece implements Moves {
                         allAvailableMoves.removeIf(kingMove -> pieceBackup.equals(board[kingMove[0]][kingMove[1]]));
                     }
                 }
-
             }
         }
-
     }
 }

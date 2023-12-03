@@ -66,9 +66,9 @@ public class Board {
     }
 
     public static void moveFigure(int fromRow, int fromCol, int toRow, int toCol){
-        board[toRow][toCol] = board[fromRow][toCol];
-        board[fromRow][fromCol].setLocation(toRow, toCol);
+        board[toRow][toCol] = board[fromRow][fromCol];
         board[fromRow][fromCol] = null;
+        board[toRow][toCol].setLocation(toRow, toCol);
     }
 
     public static void makeMove(){
@@ -132,11 +132,11 @@ public class Board {
         movedPiece.setAllAvailableMoves();
 
         king.setAllAvailableMoves();
-        if(king.getAllAvailableMoves().size() == 0){
-            if(!canAnyOtherFigureCloseCheck(movedPiece)){
-                isGameOver = true;
-            }
-        }
+//        if(king.getAllAvailableMoves().size() == 0){
+//            if(!canAnyOtherFigureCloseCheck(movedPiece)){
+//                isGameOver = true;
+//            }
+//        }
         return movedPiece.isValidMove(king.getRow(), king.getCol());
     }
 
@@ -165,7 +165,6 @@ public class Board {
 
     public static void main(String[] args) {
         createBoard();
-        System.out.println(whiteKing.getAllAvailableMoves().size()==0);
         printBoard();
         while (true){
             makeMove();
