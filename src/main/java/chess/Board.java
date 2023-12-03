@@ -28,7 +28,8 @@ public class Board {
             System.out.print(i+1+" ");
             for(int j = 0; j<8; j++){
                 if(board[i][j]!=null){
-                    System.out.print(board[i][j].getSymbol()+' ');
+                    String str = board[i][j].getColor().equals(white) ? board[i][j].getSymbol() : board[i][j].getSymbol().toLowerCase();
+                    System.out.print(str+' ');
                 }else{
                     System.out.print(". ");
                 }
@@ -166,9 +167,9 @@ public class Board {
     public static void main(String[] args) {
         createBoard();
         printBoard();
-        while (true){
-            makeMove();
-        }
+//        while (true){
+//            makeMove();
+//        }
     }
 
 }

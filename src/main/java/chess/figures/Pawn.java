@@ -10,7 +10,7 @@ public class Pawn extends Piece {
 
     @Override
     public String getSymbol() {
-        return getColor().equals("white") ? "P" : "p";
+        return "P";
     }
 
     @Override

@@ -12,7 +12,7 @@ public class Knight extends Piece implements Moves {
 
     @Override
     public String getSymbol() {
-        return getColor().equals("white") ? "N" : "n";
+        return "N";
     }
 
     @Override

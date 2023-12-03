@@ -12,7 +12,7 @@ public class Rook extends Piece implements Moves {
 
     @Override
     public String getSymbol() {
-        return getColor().equals("white") ? "R" : "r";
+        return "R";
     }
 
     @Override
