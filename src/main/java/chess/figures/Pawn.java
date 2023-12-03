@@ -16,39 +16,31 @@ public class Pawn extends Piece {
     @Override
     public void setAllAvailableMoves() {
         int dir = getColor().equals(Board.white) ? 1 : -1;
-        int row = getRow();
-        int col = getCol();
 
         allAvailableMoves.clear();
         allBackedUpPieces.clear();
 
-        int forwardRow = row + dir;
+        int forwardRow = getRow() + dir;
 
         if (forwardRow >= 0 && forwardRow < 8) {
-            if (board[forwardRow][col] == null) {
-                allAvailableMoves.add(new int[]{forwardRow, col});
+            if (board[forwardRow][getCol()] == null) {
+                allAvailableMoves.add(new int[]{forwardRow, getCol()});
             }
 
-            int leftCol = col - 1;
-            if (leftCol >= 0 && board[forwardRow][leftCol] != null) {
-                if (!board[forwardRow][leftCol].getColor().equals(getColor())) {
-                    allAvailableMoves.add(new int[]{forwardRow, leftCol});
-                } else {
-                    allBackedUpPieces.add(board[forwardRow][leftCol]);
+            for(int dY : new int[]{1, -1}){
+                int y = getCol()+dY;
+
+                if(y>=0 && y<8 && board[forwardRow][y] != null){
+                    if (!board[forwardRow][y].getColor().equals(getColor())) {
+                        allAvailableMoves.add(new int[]{forwardRow, y});
+                    } else {
+                        allBackedUpPieces.add(board[forwardRow][y]);
+                    }
                 }
             }
 
-            int rightCol = col + 1;
-            if (rightCol < 8 && board[forwardRow][rightCol] != null) {
-                if (!board[forwardRow][rightCol].getColor().equals(getColor())) {
-                    allAvailableMoves.add(new int[]{forwardRow, rightCol});
-                } else {
-                    allBackedUpPieces.add(board[forwardRow][rightCol]);
-                }
-            }
-
-            if (!hasMoved && board[forwardRow][col] == null && board[row + 2 * dir][col] == null) {
-                allAvailableMoves.add(new int[]{row + 2 * dir, col});
+            if (!hasMoved && board[forwardRow][getCol()] == null && board[getRow() + 2 * dir][getCol()] == null) {
+                allAvailableMoves.add(new int[]{getRow() + 2 * dir, getCol()});
             }
         }
     }

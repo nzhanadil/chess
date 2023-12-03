@@ -9,14 +9,16 @@ abstract public class Piece extends Board {
     boolean hasMoved;
     String color;
     int row, col;
-    List<int[]> allAvailableMoves = new ArrayList<>();
-    List<Piece> allBackedUpPieces = new ArrayList<>();
+    List<int[]> allAvailableMoves;
+    List<Piece> allBackedUpPieces;;
 
     public Piece(String color, int row, int col) {
         this.color = color;
         this.row = row;
         this.col = col;
         this.hasMoved = false;
+        this.allAvailableMoves = new ArrayList<>();
+        this.allBackedUpPieces =  new ArrayList<>();
     }
 
     public String getColor() {
