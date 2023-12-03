@@ -16,7 +16,7 @@ public class King extends Piece implements Moves {
 
     @Override
     public String getSymbol() {
-        return getColor().equals("white") ? "K" : "k";
+        return "K";
     }
 
     @Override

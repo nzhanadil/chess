@@ -12,7 +12,7 @@ public class Queen extends Piece implements Moves {
 
     @Override
     public String getSymbol() {
-        return getColor().equals("white") ? "Q" : "q";
+        return "Q";
     }
 
     @Override

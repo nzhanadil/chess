@@ -12,7 +12,7 @@ public class Bishop extends Piece implements Moves {
 
     @Override
     public String getSymbol() {
-        return getColor().equals("white") ? "B" : "b";
+        return "B";
     }
 
     @Override
