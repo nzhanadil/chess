@@ -10,15 +10,15 @@ public class Board {
     public static Piece whiteKing;
     public static Piece blackKing;
 
-    public static void printBoard(){
+    public static void printBoard() {
         System.out.println("  A B C D E F G H");
-        for(int i = 0; i<8;i++){
-            System.out.print(i+1+" ");
-            for(int j = 0; j<8; j++){
-                if(board[i][j]!=null){
+        for (int i = 0; i < 8; i++) {
+            System.out.print(i + 1 + " ");
+            for (int j = 0; j < 8; j++) {
+                if (board[i][j] != null) {
                     String str = board[i][j].getColor().equals(white) ? board[i][j].getSymbol() : board[i][j].getSymbol().toLowerCase();
-                    System.out.print(str+' ');
-                }else{
+                    System.out.print(str + ' ');
+                } else {
                     System.out.print(". ");
                 }
             }
@@ -26,8 +26,8 @@ public class Board {
         }
     }
 
-    public static void createBoard(){
-        for(int i = 0; i<8; i++){
+    public static void createBoard() {
+        for (int i = 0; i < 8; i++) {
             board[1][i] = new Pawn(white, 1, i);
             board[6][i] = new Pawn(black, 6, i);
         }
@@ -54,7 +54,7 @@ public class Board {
         blackKing = board[7][4];
     }
 
-    public static void moveFigure(int fromRow, int fromCol, int toRow, int toCol){
+    public static void moveFigure(int fromRow, int fromCol, int toRow, int toCol) {
         board[toRow][toCol] = board[fromRow][fromCol];
         board[fromRow][fromCol] = null;
         board[toRow][toCol].setLocation(toRow, toCol);

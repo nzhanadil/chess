@@ -19,5 +19,4 @@ public class Rook extends Piece implements Moves {
     public void setAllAvailableMoves() {
         setAllAvailableMovesForLongMovingPieces(directions, getRow(), getCol());
     }
-
 }

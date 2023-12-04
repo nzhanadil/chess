@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 abstract public class Piece extends Board {
+
     boolean hasMoved;
     String color;
     int row, col;
     List<int[]> allAvailableMoves;
-    List<Piece> allBackedUpPieces;;
+    List<Piece> allBackedUpPieces;
+    ;
 
     public Piece(String color, int row, int col) {
         this.color = color;
@@ -18,7 +20,7 @@ abstract public class Piece extends Board {
         this.col = col;
         this.hasMoved = false;
         this.allAvailableMoves = new ArrayList<>();
-        this.allBackedUpPieces =  new ArrayList<>();
+        this.allBackedUpPieces = new ArrayList<>();
     }
 
     public String getColor() {
@@ -43,7 +45,7 @@ abstract public class Piece extends Board {
         return allAvailableMoves;
     }
 
-    public List<Piece> getAllBackedUpPieces(){
+    public List<Piece> getAllBackedUpPieces() {
         return allBackedUpPieces;
     }
 

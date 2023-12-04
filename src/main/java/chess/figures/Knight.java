@@ -19,5 +19,4 @@ public class Knight extends Piece implements Moves {
     public void setAllAvailableMoves() {
         setAllAvailableMovesForShortMovingPieces(directions, getRow(), getCol());
     }
-
 }

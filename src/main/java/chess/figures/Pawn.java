@@ -27,10 +27,10 @@ public class Pawn extends Piece {
                 allAvailableMoves.add(new int[]{forwardRow, getCol()});
             }
 
-            for(int dY : new int[]{1, -1}){
-                int y = getCol()+dY;
+            for (int dY : new int[]{1, -1}) {
+                int y = getCol() + dY;
 
-                if(y>=0 && y<8 && board[forwardRow][y] != null){
+                if (y >= 0 && y < 8 && board[forwardRow][y] != null) {
                     if (!board[forwardRow][y].getColor().equals(getColor())) {
                         allAvailableMoves.add(new int[]{forwardRow, y});
                     } else {
@@ -44,5 +44,4 @@ public class Pawn extends Piece {
             }
         }
     }
-
 }
