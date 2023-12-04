@@ -23,33 +23,33 @@ public class King extends Piece implements Moves {
     public void setAllAvailableMoves() {
         setAllAvailableMovesForShortMovingPieces(directions, getRow(), getCol());
 
-        int pawnDir = getColor().equals(Board.black) ? -1: 1;
-        int [] changeInY = {1, -1};
+        int pawnDir = getColor().equals(Board.black) ? -1 : 1;
+        int[] changeInY = {1, -1};
 
-        for(int[] coordinates : new ArrayList<>(getAllAvailableMoves())){
-            for(int dY : changeInY){
-                int x = coordinates[0]+pawnDir, y = coordinates[1]+dY;
+        for (int[] coordinates : new ArrayList<>(getAllAvailableMoves())) {
+            for (int dY : changeInY) {
+                int x = coordinates[0] + pawnDir, y = coordinates[1] + dY;
 
-                if(x>=0 && x<8 && y>=0 && y<8){
+                if (x >= 0 && x < 8 && y >= 0 && y < 8) {
 
-                    if(board[x][y]!=null && !(board[x][y].getColor().equals(getColor())) && (board[x][y] instanceof Pawn)){
+                    if (board[x][y] != null && !(board[x][y].getColor().equals(getColor())) && (board[x][y] instanceof Pawn)) {
                         getAllAvailableMoves().remove(coordinates);
                     }
                 }
             }
         }
 
-        for(Piece[] row : board){
-            for(Piece piece : row){
-                if(piece!=null && (!piece.getColor().equals(getColor())) && !(piece instanceof King)){
+        for (Piece[] row : board) {
+            for (Piece piece : row) {
+                if (piece != null && (!piece.getColor().equals(getColor())) && !(piece instanceof King)) {
 
                     piece.setAllAvailableMoves();
 
-                    for(int[] pieceMove : piece.getAllAvailableMoves()){
+                    for (int[] pieceMove : piece.getAllAvailableMoves()) {
                         allAvailableMoves.removeIf(kingMove -> Arrays.equals(pieceMove, kingMove));
                     }
 
-                    for(Piece pieceBackup : piece.getAllBackedUpPieces()){
+                    for (Piece pieceBackup : piece.getAllBackedUpPieces()) {
                         allAvailableMoves.removeIf(kingMove -> pieceBackup.equals(board[kingMove[0]][kingMove[1]]));
                     }
                 }

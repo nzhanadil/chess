@@ -7,7 +7,7 @@ public class Player {
     boolean isUnderCheck;
     boolean isMate;
 
-    public Player(String color, String name){
+    public Player(String color, String name) {
         this.color = color;
         this.name = name;
         this.isUnderCheck = false;
