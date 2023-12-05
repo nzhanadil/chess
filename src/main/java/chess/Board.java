@@ -4,7 +4,8 @@ import chess.figures.*;
 
 public class Board {
 
-    public static Piece[][] board = new Piece[8][8];
+    public static final int boardRows = 8, boardCols = 8;
+    public static Piece[][] board = new Piece[boardRows][boardCols];
     public static final String white = "white";
     public static final String black = "black";
     public static Piece whiteKing;
@@ -12,9 +13,9 @@ public class Board {
 
     public static void printBoard() {
         System.out.println("  A B C D E F G H");
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < boardRows; i++) {
             System.out.print(i + 1 + " ");
-            for (int j = 0; j < 8; j++) {
+            for (int j = 0; j < boardCols; j++) {
                 if (board[i][j] != null) {
                     String str = board[i][j].getColor().equals(white) ? board[i][j].getSymbol() : board[i][j].getSymbol().toLowerCase();
                     System.out.print(str + ' ');

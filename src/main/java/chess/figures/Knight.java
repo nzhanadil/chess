@@ -2,7 +2,7 @@ package chess.figures;
 
 import chess.Moves;
 
-public class Knight extends Piece implements Moves {
+public class Knight extends Piece {
 
     private final int[][] directions = {{-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}};
 
@@ -17,6 +17,6 @@ public class Knight extends Piece implements Moves {
 
     @Override
     public void setAllAvailableMoves() {
-        setAllAvailableMovesForShortMovingPieces(directions, getRow(), getCol());
+        Moves.setAllAvailableMoves(board[getRow()][getCol()], directions, 1);
     }
 }

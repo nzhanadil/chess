@@ -71,6 +71,24 @@ public class Main extends Board {
         return currentPiece.isValidMove(currentKing.getRow(), currentKing.getCol());
     }
 
+    public static boolean isUnderCheck(){
+        for(Piece[] row : board){
+            for(Piece piece : row){
+                // Might need to change current King to Opposite king
+                if(piece != null && !piece.getColor().equals(currentKing.getColor())){
+                    piece.setAllAvailableMoves();
+                    for(int[] move : piece.getAllAvailableMoves()){
+                        if(Arrays.equals(move, new int[]{currentKing.getRow(), currentKing.getCol()})){
+
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public static void play() {
 
         int[] move = getMoveFromPlayer();
