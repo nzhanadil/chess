@@ -1,6 +1,8 @@
 package chess.players;
 
-abstract public class Player {
+import chess.Board;
+
+abstract public class Player extends Board {
 
     String color;
     String name;
@@ -12,6 +14,18 @@ abstract public class Player {
         this.type = type;
     }
 
-    public abstract void move();
+    public String getColor() {
+        return color;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public abstract void makeMove();
 
 }

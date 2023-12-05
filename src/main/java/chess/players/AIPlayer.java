@@ -7,7 +7,7 @@ public class AIPlayer extends Player {
     }
 
     @Override
-    public void move() {
+    public void makeMove() {
 
     }
 }
