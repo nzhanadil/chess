@@ -2,7 +2,7 @@ package chess.figures;
 
 import chess.Moves;
 
-public class Rook extends Piece implements Moves {
+public class Rook extends Piece {
 
     private final int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
@@ -17,6 +17,6 @@ public class Rook extends Piece implements Moves {
 
     @Override
     public void setAllAvailableMoves() {
-        setAllAvailableMovesForLongMovingPieces(directions, getRow(), getCol());
+        Moves.setAllAvailableMoves(board[getRow()][getCol()], directions, 0);
     }
 }

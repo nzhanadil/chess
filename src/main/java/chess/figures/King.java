@@ -6,7 +6,7 @@ import chess.Moves;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class King extends Piece implements Moves {
+public class King extends Piece {
 
     private final int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
 
@@ -21,7 +21,7 @@ public class King extends Piece implements Moves {
 
     @Override
     public void setAllAvailableMoves() {
-        setAllAvailableMovesForShortMovingPieces(directions, getRow(), getCol());
+        Moves.setAllAvailableMoves(board[getRow()][getCol()], directions, 1);
 
         int pawnDir = getColor().equals(Board.black) ? -1 : 1;
         int[] changeInY = {1, -1};

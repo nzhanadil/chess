@@ -2,7 +2,7 @@ package chess.figures;
 
 import chess.Moves;
 
-public class Bishop extends Piece implements Moves {
+public class Bishop extends Piece {
 
     private final int[][] directions = {{1, 1}, {-1, -1}, {1, -1}, {-1, 1}};
 
@@ -17,6 +17,6 @@ public class Bishop extends Piece implements Moves {
 
     @Override
     public void setAllAvailableMoves() {
-        setAllAvailableMovesForLongMovingPieces(directions, getRow(), getCol());
+        Moves.setAllAvailableMoves(board[getRow()][getCol()], directions, 0);
     }
 }

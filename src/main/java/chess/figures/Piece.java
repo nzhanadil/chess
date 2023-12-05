@@ -12,7 +12,6 @@ abstract public class Piece extends Board {
     int row, col;
     List<int[]> allAvailableMoves;
     List<Piece> allBackedUpPieces;
-    ;
 
     public Piece(String color, int row, int col) {
         this.color = color;
