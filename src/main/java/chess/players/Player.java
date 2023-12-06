@@ -20,6 +20,6 @@ abstract public class Player extends Board {
         return name;
     }
 
-    public abstract void makeMove();
+    public abstract int[] makeMove();
 
 }

@@ -2,9 +2,33 @@ package chess;
 
 import chess.figures.Piece;
 
-import static chess.Board.board;
+import java.util.ArrayList;
+
+import static chess.Board.*;
 
 public class Moves {
+
+    public static void removeMovesWhichOpensCheck(Piece piece) {
+        int actualRow = piece.getRow();
+        int actualCol = piece.getCol();
+        boolean hasMoved = piece.isHasMoved();
+
+        if (piece.getColor().equals(currentKing.getColor())) {
+            for (int[] move : new ArrayList<>(piece.getAllAvailableMoves())) {
+
+                Piece tempOfMoveTo = board[move[0]][move[1]];
+                moveFigure(actualRow, actualCol, move[0], move[1]);
+
+                if (Board.isCheck()) {
+                    piece.getAllAvailableMoves().remove(move);
+                }
+
+                moveFigure(move[0], move[1], actualRow, actualCol);
+                board[move[0]][move[1]] = tempOfMoveTo;
+                piece.setHasMoved(hasMoved);
+            }
+        }
+    }
 
     private static void addValidMovesAndBackedUpPieces(Piece piece, int row, int col) {
         if (board[row][col] == null) {
@@ -35,11 +59,16 @@ public class Moves {
                 exploreMultipleSteps(piece, dRow, dCol, row, col);
             }
         }
+        removeMovesWhichOpensCheck(piece);
     }
 
     private static void exploreMultipleSteps(Piece piece, int dRow, int dCol, int row, int col) {
         while (isValidPosition(row, col)) {
             addValidMovesAndBackedUpPieces(piece, row, col);
+
+            if (board[row][col] != null) {
+                break;
+            }
             row += dRow;
             col += dCol;
         }
