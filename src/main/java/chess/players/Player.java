@@ -6,12 +6,10 @@ abstract public class Player extends Board {
 
     String color;
     String name;
-    String type;
 
-    public Player(String color, String name, String type) {
+    public Player(String color, String name) {
         this.color = color;
         this.name = name;
-        this.type = type;
     }
 
     public String getColor() {
@@ -20,10 +18,6 @@ abstract public class Player extends Board {
 
     public String getName() {
         return name;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public abstract void makeMove();
