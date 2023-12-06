@@ -1,6 +1,7 @@
 package chess.figures;
 
 import chess.Board;
+import chess.Moves;
 
 public class Pawn extends Piece {
 
@@ -43,5 +44,6 @@ public class Pawn extends Piece {
                 allAvailableMoves.add(new int[]{getRow() + 2 * dir, getCol()});
             }
         }
+        Moves.removeMovesWhichOpensCheck(board[getRow()][getCol()]);
     }
 }

@@ -33,6 +33,14 @@ abstract public class Piece extends Board {
         return row;
     }
 
+    public boolean isHasMoved() {
+        return hasMoved;
+    }
+
+    public void setHasMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
+    }
+
     public void setLocation(int row, int col) {
         this.hasMoved = true;
         this.row = row;
