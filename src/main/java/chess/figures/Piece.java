@@ -3,15 +3,14 @@ package chess.figures;
 import chess.Board;
 
 import java.util.ArrayList;
-import java.util.List;
 
 abstract public class Piece extends Board {
 
     boolean hasMoved;
     String color;
     int row, col;
-    List<int[]> allAvailableMoves;
-    List<Piece> allBackedUpPieces;
+    ArrayList<int[]> allAvailableMoves;
+    ArrayList<Piece> allBackedUpPieces;
 
     public Piece(String color, int row, int col) {
         this.color = color;
@@ -40,11 +39,11 @@ abstract public class Piece extends Board {
         this.col = col;
     }
 
-    public List<int[]> getAllAvailableMoves() {
+    public ArrayList<int[]> getAllAvailableMoves() {
         return allAvailableMoves;
     }
 
-    public List<Piece> getAllBackedUpPieces() {
+    public ArrayList<Piece> getAllBackedUpPieces() {
         return allBackedUpPieces;
     }
 
