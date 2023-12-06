@@ -10,23 +10,27 @@ import java.util.HashMap;
 
 public class Board {
 
-    public static final int boardRows = 8, boardCols = 8;
-    public static Piece whiteKing, blackKing, currentKing;
-    public static Player player1, player2, currentPlayer;
-
-    public static Piece[][] board = new Piece[boardRows][boardCols];
+    public static final int boardRows = 8;
+    public static final int boardCols = 8;
+    private static Piece whiteKing;
+    private static Piece blackKing;
+    public static Piece currentKing;
+    private static Player player1;
+    private static Player player2;
+    public static Player currentPlayer;
     public static final String white = "white";
     public static final String black = "black";
     public static boolean isGameOver = false;
 
+    public static Piece[][] board = new Piece[boardRows][boardCols];
     public static HashMap<Piece, ArrayList<int[]>> allFiguresWithAvailableMoves = new HashMap<>();
 
-    public static void setAllFiguresWIthAvailableMoves(){
+    public static void setAllFiguresWIthAvailableMoves() {
         allFiguresWithAvailableMoves.clear();
 
-        for(Piece[] row : board){
-            for(Piece piece : row){
-                if(piece != null && piece.getColor().equals(currentPlayer.getColor())){
+        for (Piece[] row : board) {
+            for (Piece piece : row) {
+                if (piece != null && piece.getColor().equals(currentPlayer.getColor())) {
                     piece.setAllAvailableMoves();
                     allFiguresWithAvailableMoves.put(piece, piece.getAllAvailableMoves());
                 }
@@ -34,38 +38,28 @@ public class Board {
         }
     }
 
-
-
-    public static void play(){
+    public static void play() {
+        printBoard();
         setAllFiguresWIthAvailableMoves();
 
-        int[] move = currentPlayer.makeMove();
-        if(!isValidInput(move[0], move[1], move[2], move[3])) return;
-        if(allFiguresWithAvailableMoves.size()==0){
+        if (allFiguresWithAvailableMoves.size() == 0) {
             isGameOver = true;
+            Player winner = currentPlayer == player1 ? player2 : player1;
+            System.out.println(winner.getName() + " WON THE GAME!");
             return;
         }
+
+        int[] move = currentPlayer.makeMove();
+        if (!isValidInput(move[0], move[1], move[2], move[3])) return;
+
         moveFigure(move[0], move[1], move[2], move[3]);
         changeCurrentPlayer();
-        printBoard();
-
-    }
-
-    public static void main(String[] args) {
-        createBoard();
-        createPlayers();
-        printBoard();
-        while (!isGameOver){
-            play();
-        }
-        System.out.println(currentPlayer.getName()+" WON THE GAME!");
     }
 
     public static boolean isCheck() {
         for (Piece[] row : board) {
             for (Piece piece : row) {
                 if (piece != null && !piece.getColor().equals(currentKing.getColor()) && !(piece instanceof King)) {
-
                     piece.setAllAvailableMoves();
 
                     for (int[] move : piece.getAllAvailableMoves()) {
@@ -108,11 +102,11 @@ public class Board {
             System.out.println("This is not valid move, please try again");
             return false;
         }
-        if (!allFiguresWithAvailableMoves.containsKey(board[fromRow][fromCol])){
+        if (!allFiguresWithAvailableMoves.containsKey(board[fromRow][fromCol])) {
             System.out.println("This figure doesn't have any available moves, plea try again");
         } else {
-            for(int[] move : allFiguresWithAvailableMoves.get(board[fromRow][fromCol])){
-                if(Arrays.equals(move, new int[]{toRow, toCol})){
+            for (int[] move : allFiguresWithAvailableMoves.get(board[fromRow][fromCol])) {
+                if (Arrays.equals(move, new int[]{toRow, toCol})) {
                     return true;
                 }
             }
