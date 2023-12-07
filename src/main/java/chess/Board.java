@@ -18,10 +18,9 @@ public class Board {
     private static Player player1;
     private static Player player2;
     public static Player currentPlayer;
-    public static final String white = "white";
-    public static final String black = "black";
+    public static final String white = "yellow";
+    public static final String black = "green";
     public static boolean isGameOver = false;
-
     public static Piece[][] board = new Piece[boardRows][boardCols];
     public static HashMap<Piece, ArrayList<int[]>> allFiguresWithAvailableMoves = new HashMap<>();
 
@@ -39,6 +38,14 @@ public class Board {
     }
 
     public static void play() {
+        createBoard();
+        createPlayers();
+        while (!isGameOver) {
+            currentPlayerMakeMove();
+        }
+    }
+
+    public static void currentPlayerMakeMove() {
         printBoard();
         setAllFiguresWIthAvailableMoves();
 
