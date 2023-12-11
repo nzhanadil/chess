@@ -1,12 +1,14 @@
 package chess;
 
 import chess.figures.*;
+import chess.players.AIPlayer;
 import chess.players.HumanPlayer;
 import chess.players.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Board {
 
@@ -23,6 +25,7 @@ public class Board {
     public static boolean isGameOver = false;
     public static Piece[][] board = new Piece[boardRows][boardCols];
     public static HashMap<Piece, ArrayList<int[]>> allFiguresWithAvailableMoves = new HashMap<>();
+    public static Scanner scanner = new Scanner(System.in);
 
     public static void setAllFiguresWIthAvailableMoves() {
         allFiguresWithAvailableMoves.clear();
@@ -31,7 +34,9 @@ public class Board {
             for (Piece piece : row) {
                 if (piece != null && piece.getColor().equals(currentPlayer.getColor())) {
                     piece.setAllAvailableMoves();
-                    allFiguresWithAvailableMoves.put(piece, piece.getAllAvailableMoves());
+                    if (piece.getAllAvailableMoves().size() != 0) {
+                        allFiguresWithAvailableMoves.put(piece, piece.getAllAvailableMoves());
+                    }
                 }
             }
         }
@@ -81,8 +86,27 @@ public class Board {
     }
 
     public static void createPlayers() {
-        player1 = new HumanPlayer(white, "Player 1");
-        player2 = new HumanPlayer(black, "Player 2");
+        System.out.println("Please select one of the Following\n1 - Human against AI\n2 - AI against AI\n3 - Human against Human");
+        String option = scanner.next();
+
+        switch (option) {
+            case "2":
+                player1 = new AIPlayer(white, "Player 1");
+                player2 = new AIPlayer(black, "Player 2");
+                break;
+            case "3":
+                System.out.println("please enter Player 1's name");
+                scanner.nextLine();
+                player1 = new HumanPlayer(white, scanner.nextLine());
+                System.out.println("please enter Player 2's name");
+                player2 = new HumanPlayer(black, scanner.nextLine());
+                break;
+            default:
+                System.out.println("please enter your name");
+                scanner.nextLine();
+                player1 = new HumanPlayer(white, scanner.nextLine());
+                player2 = new AIPlayer(black, "Player 2");
+        }
         currentPlayer = player1;
         currentKing = whiteKing;
     }
