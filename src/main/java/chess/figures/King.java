@@ -27,6 +27,11 @@ public class King extends Piece {
         int[] changeInY = {1, -1};
 
         for (int[] coordinates : new ArrayList<>(getAllAvailableMoves())) {
+
+            // TODO - write logic so that king can not make check for opponents king
+            if(board[coordinates[0]][coordinates[1]] instanceof King){
+                getAllAvailableMoves().remove(coordinates);
+            }
             for (int dY : changeInY) {
                 int x = coordinates[0] + pawnDir, y = coordinates[1] + dY;
 

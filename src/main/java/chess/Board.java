@@ -26,6 +26,7 @@ public class Board {
     public static Piece[][] board = new Piece[boardRows][boardCols];
     public static HashMap<Piece, ArrayList<int[]>> allFiguresWithAvailableMoves = new HashMap<>();
     public static Scanner scanner = new Scanner(System.in);
+    private static int numberOfMoves = 0;
 
     public static void setAllFiguresWIthAvailableMoves() {
         allFiguresWithAvailableMoves.clear();
@@ -54,6 +55,12 @@ public class Board {
         printBoard();
         setAllFiguresWIthAvailableMoves();
 
+        if(numberOfMoves >1000){
+            isGameOver = true;
+            System.out.println("DRAW!");
+            return;
+        }
+
         if (allFiguresWithAvailableMoves.size() == 0) {
             isGameOver = true;
             Player winner = currentPlayer == player1 ? player2 : player1;
@@ -66,6 +73,7 @@ public class Board {
 
         moveFigure(move[0], move[1], move[2], move[3]);
         changeCurrentPlayer();
+        numberOfMoves++;
     }
 
     public static boolean isCheck() {
