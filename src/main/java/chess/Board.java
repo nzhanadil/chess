@@ -79,7 +79,7 @@ public class Board {
     public static boolean isCheck() {
         for (Piece[] row : board) {
             for (Piece piece : row) {
-                if (piece != null && !piece.getColor().equals(currentKing.getColor()) && !(piece instanceof King)) {
+                if (piece != null && !piece.getColor().equals(currentKing.getColor()) ) {
                     piece.setAllAvailableMoves();
 
                     for (int[] move : piece.getAllAvailableMoves()) {
