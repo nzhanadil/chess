@@ -5,9 +5,9 @@ import chess.figures.Piece;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class AIPlayer extends Player {
+public class AIPlayerLevel1 extends Player {
 
-    public AIPlayer(String color, String name) {
+    public AIPlayerLevel1(String color, String name) {
         super(color, name);
     }
 
