@@ -55,7 +55,7 @@ public class Board {
         printBoard();
         setAllFiguresWIthAvailableMoves();
 
-        if(numberOfMoves >1000){
+        if (numberOfMoves > 1000) {
             isGameOver = true;
             System.out.println("DRAW!");
             return;
@@ -72,14 +72,26 @@ public class Board {
         if (!isValidInput(move[0], move[1], move[2], move[3])) return;
 
         moveFigure(move[0], move[1], move[2], move[3]);
+        makeQueensFromPawns();
         changeCurrentPlayer();
         numberOfMoves++;
+    }
+
+    public static void makeQueensFromPawns() {
+        for (int row : new int[]{0, 7}) {
+            for (Piece piece : board[row]) {
+
+                if (piece instanceof Pawn) {
+                    board[row][piece.getCol()] = new Queen(piece.getColor(), row, piece.getCol());
+                }
+            }
+        }
     }
 
     public static boolean isCheck() {
         for (Piece[] row : board) {
             for (Piece piece : row) {
-                if (piece != null && !piece.getColor().equals(currentKing.getColor()) ) {
+                if (piece != null && !piece.getColor().equals(currentKing.getColor())) {
                     piece.setAllAvailableMoves();
 
                     for (int[] move : piece.getAllAvailableMoves()) {
