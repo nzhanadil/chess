@@ -1,7 +1,7 @@
 package chess;
 
 import chess.figures.*;
-import chess.players.AIPlayer;
+import chess.players.AIPlayerLevel1;
 import chess.players.HumanPlayer;
 import chess.players.Player;
 
@@ -55,7 +55,7 @@ public class Board {
         printBoard();
         setAllFiguresWIthAvailableMoves();
 
-        if(numberOfMoves >1000){
+        if (numberOfMoves > 1000) {
             isGameOver = true;
             System.out.println("DRAW!");
             return;
@@ -72,14 +72,26 @@ public class Board {
         if (!isValidInput(move[0], move[1], move[2], move[3])) return;
 
         moveFigure(move[0], move[1], move[2], move[3]);
+        makeQueensFromPawns();
         changeCurrentPlayer();
         numberOfMoves++;
+    }
+
+    public static void makeQueensFromPawns() {
+        for (int row : new int[]{0, 7}) {
+            for (Piece piece : board[row]) {
+
+                if (piece instanceof Pawn) {
+                    board[row][piece.getCol()] = new Queen(piece.getColor(), row, piece.getCol());
+                }
+            }
+        }
     }
 
     public static boolean isCheck() {
         for (Piece[] row : board) {
             for (Piece piece : row) {
-                if (piece != null && !piece.getColor().equals(currentKing.getColor()) ) {
+                if (piece != null && !piece.getColor().equals(currentKing.getColor())) {
                     piece.setAllAvailableMoves();
 
                     for (int[] move : piece.getAllAvailableMoves()) {
@@ -99,8 +111,8 @@ public class Board {
 
         switch (option) {
             case "2":
-                player1 = new AIPlayer(white, "Player 1");
-                player2 = new AIPlayer(black, "Player 2");
+                player1 = new AIPlayerLevel1(white, "Player 1");
+                player2 = new AIPlayerLevel1(black, "Player 2");
                 break;
             case "3":
                 System.out.println("please enter Player 1's name");
@@ -113,7 +125,7 @@ public class Board {
                 System.out.println("please enter your name");
                 scanner.nextLine();
                 player1 = new HumanPlayer(white, scanner.nextLine());
-                player2 = new AIPlayer(black, "Player 2");
+                player2 = new AIPlayerLevel1(black, "Player 2");
         }
         currentPlayer = player1;
         currentKing = whiteKing;
