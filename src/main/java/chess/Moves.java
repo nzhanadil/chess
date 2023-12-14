@@ -36,8 +36,8 @@ public class Moves {
         } else {
             if (!board[row][col].getColor().equals(piece.getColor())) {
                 piece.getAllAvailableMoves().add(new int[]{row, col});
-            } else {
-                piece.getAllBackedUpPieces().add(board[row][col]);
+            } else if(!backedUpPieces.contains(board[row][col])){
+                backedUpPieces.add(board[row][col]);
             }
         }
     }

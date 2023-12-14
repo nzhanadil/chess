@@ -2,8 +2,11 @@ package chess.players;
 
 import chess.Board;
 
+import java.util.Random;
+
 abstract public class Player extends Board {
 
+    Random random = new Random();
     String color;
     String name;
 
