@@ -2,13 +2,11 @@ package chess;
 
 import chess.figures.*;
 import chess.players.AIPlayerLevel1;
+import chess.players.AIPlayerLevel2;
 import chess.players.HumanPlayer;
 import chess.players.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class Board {
 
@@ -25,6 +23,7 @@ public class Board {
     public static boolean isGameOver = false;
     public static Piece[][] board = new Piece[boardRows][boardCols];
     public static HashMap<Piece, ArrayList<int[]>> allFiguresWithAvailableMoves = new HashMap<>();
+    public static List<Piece> backedUpPieces = new ArrayList<>();
     public static Scanner scanner = new Scanner(System.in);
     private static int numberOfMoves = 0;
 
@@ -38,6 +37,18 @@ public class Board {
                     if (piece.getAllAvailableMoves().size() != 0) {
                         allFiguresWithAvailableMoves.put(piece, piece.getAllAvailableMoves());
                     }
+                }
+            }
+        }
+    }
+
+    public static void setBackedUpPieces() {
+        backedUpPieces.clear();
+
+        for (Piece[] row : board) {
+            for (Piece piece : row) {
+                if (piece != null && piece.getColor().equals(currentPlayer.getColor())) {
+                    piece.setAllAvailableMoves();
                 }
             }
         }
@@ -73,6 +84,7 @@ public class Board {
 
         moveFigure(move[0], move[1], move[2], move[3]);
         makeQueensFromPawns();
+        setBackedUpPieces();
         changeCurrentPlayer();
         numberOfMoves++;
     }
@@ -111,8 +123,8 @@ public class Board {
 
         switch (option) {
             case "2":
-                player1 = new AIPlayerLevel1(white, "Player 1");
-                player2 = new AIPlayerLevel1(black, "Player 2");
+                player1 = new AIPlayerLevel2(white, "Player 1");
+                player2 = new AIPlayerLevel2(black, "Player 2");
                 break;
             case "3":
                 System.out.println("please enter Player 1's name");

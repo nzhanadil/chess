@@ -3,7 +3,6 @@ package chess.players;
 import chess.figures.Piece;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class AIPlayerLevel1 extends Player {
 
@@ -13,7 +12,6 @@ public class AIPlayerLevel1 extends Player {
 
     @Override
     public int[] makeMove() {
-        Random random = new Random();
         ArrayList<Piece> pieces = new ArrayList<Piece>(allFiguresWithAvailableMoves.keySet());
         Piece piece = pieces.get(random.nextInt(pieces.size()));
         ArrayList<int[]> moves = allFiguresWithAvailableMoves.get(piece);
