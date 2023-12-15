@@ -47,7 +47,7 @@ public class Board {
 
         for (Piece[] row : board) {
             for (Piece piece : row) {
-                if (piece != null && piece.getColor().equals(currentPlayer.getColor())) {
+                if (piece != null && !piece.getColor().equals(currentPlayer.getColor())) {
                     piece.setAllAvailableMoves();
                 }
             }
@@ -64,6 +64,7 @@ public class Board {
 
     public static void currentPlayerMakeMove() {
         printBoard();
+        setBackedUpPieces();
         setAllFiguresWIthAvailableMoves();
 
         if (numberOfMoves > 1000) {
@@ -84,7 +85,6 @@ public class Board {
 
         moveFigure(move[0], move[1], move[2], move[3]);
         makeQueensFromPawns();
-        setBackedUpPieces();
         changeCurrentPlayer();
         numberOfMoves++;
     }
