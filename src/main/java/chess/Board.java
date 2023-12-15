@@ -77,6 +77,7 @@ public class Board {
             isGameOver = true;
             Player winner = currentPlayer == player1 ? player2 : player1;
             System.out.println(winner.getName() + " WON THE GAME!");
+            System.out.println("Number of steps - "+numberOfMoves);
             return;
         }
 
