@@ -3,6 +3,7 @@ package chess.players;
 import chess.figures.Piece;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 public class AIPlayerLevel2 extends Player {
@@ -10,11 +11,13 @@ public class AIPlayerLevel2 extends Player {
     private Map<String, Integer> hierarchy;
     private ArrayList<int[]> excellentMoves;
     private ArrayList<int[]> goodMoves;
+    private ArrayList<int[]> fairMoves;
 
     public AIPlayerLevel2(String color, String name) {
         super(color, name);
         this.excellentMoves = new ArrayList<>();
         this.goodMoves = new ArrayList<>();
+        this.fairMoves = new ArrayList<>();
         this.hierarchy = Map.of("K", 6, "Q", 5, "R", 4, "B", 3, "N", 2, "P", 1);
     }
 
@@ -26,6 +29,8 @@ public class AIPlayerLevel2 extends Player {
             return getBestMove(excellentMoves, "best");
         } else if (goodMoves.size() != 0) {
             return getBestMove(goodMoves, "good");
+        } else if (fairMoves.size() != 0) {
+            return fairMoves.get(random.nextInt(fairMoves.size()));
         }
 
         ArrayList<Piece> pieces = new ArrayList<Piece>(allFiguresWithAvailableMoves.keySet());
@@ -63,6 +68,7 @@ public class AIPlayerLevel2 extends Player {
     private void setMoves() {
         goodMoves.clear();
         excellentMoves.clear();
+        fairMoves.clear();
 
         for (Piece piece : allFiguresWithAvailableMoves.keySet()) {
 
@@ -72,9 +78,31 @@ public class AIPlayerLevel2 extends Player {
                     excellentMoves.add(new int[]{piece.getRow(), piece.getCol(), move[0], move[1]});
                 }
 
-                if (board[move[0]][move[1]] != null && hierarchy.get(piece.getSymbol()) < hierarchy.get(board[move[0]][move[1]].getSymbol())) {
+                else if (board[move[0]][move[1]] != null && hierarchy.get(piece.getSymbol()) < hierarchy.get(board[move[0]][move[1]].getSymbol())) {
                     goodMoves.add(new int[]{piece.getRow(), piece.getCol(), move[0], move[1]});
                 }
+
+                else if (board[move[0]][move[1]] == null){
+                    boolean found = false;
+
+                    for(Piece[] row : board){
+                        for(Piece p : row){
+                            if(p !=null && !p.getColor().equals(piece.getColor())){
+
+                                for(int[] m : p.getAllAvailableMoves()){
+                                    if(Arrays.equals(m, move)){
+                                        found = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if(!found){
+                        fairMoves.add(new int[]{piece.getRow(), piece.getCol(), move[0], move[1]});
+                    }
+                }
+
             }
         }
     }
