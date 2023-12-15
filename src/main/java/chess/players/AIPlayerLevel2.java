@@ -23,9 +23,9 @@ public class AIPlayerLevel2 extends Player {
         setMoves();
 
         if (excellentMoves.size() != 0) {
-            return excellentMoves.get(random.nextInt(excellentMoves.size()));
+            return getBestMove(excellentMoves, "best");
         } else if (goodMoves.size() != 0) {
-            return goodMoves.get(random.nextInt(goodMoves.size()));
+            return getBestMove(goodMoves, "good");
         }
 
         ArrayList<Piece> pieces = new ArrayList<Piece>(allFiguresWithAvailableMoves.keySet());
@@ -33,6 +33,31 @@ public class AIPlayerLevel2 extends Player {
         ArrayList<int[]> moves = allFiguresWithAvailableMoves.get(piece);
         int[] move = moves.get(random.nextInt(moves.size()));
         return new int[]{piece.getRow(), piece.getCol(), move[0], move[1]};
+    }
+
+    private int[] getBestMove(ArrayList<int[]> moves, String type){
+        int[] bestMove = moves.get(0);
+
+        for(int[] move: moves){
+
+            String bestFrom = board[bestMove[0]][bestMove[1]].getSymbol();
+            String bestTo = board[bestMove[2]][bestMove[3]].getSymbol();
+
+            String moveFrom = board[move[0]][move[1]].getSymbol();
+            String moveTo = board[move[2]][move[3]].getSymbol();
+
+            if(type.equals("best")){
+                if(hierarchy.get(bestTo) < hierarchy.get(moveTo)){
+                    bestMove = move;
+                }
+            }else if(type.equals("good")){
+                if(hierarchy.get(bestTo)-hierarchy.get(bestFrom) < hierarchy.get(moveTo)-hierarchy.get(moveFrom)){
+                    bestMove = move;
+                }
+            }
+        }
+
+        return bestMove;
     }
 
     private void setMoves() {
