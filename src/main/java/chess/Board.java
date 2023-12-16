@@ -138,7 +138,7 @@ public class Board {
                 System.out.println("please enter your name");
                 scanner.nextLine();
                 player1 = new HumanPlayer(white, scanner.nextLine());
-                player2 = new AIPlayerLevel1(black, "Player 2");
+                player2 = new AIPlayerLevel2(black, "Player 2");
         }
         currentPlayer = player1;
         currentKing = whiteKing;
