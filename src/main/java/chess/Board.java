@@ -138,7 +138,18 @@ public class Board {
                 System.out.println("please enter your name");
                 scanner.nextLine();
                 player1 = new HumanPlayer(white, scanner.nextLine());
-                player2 = new AIPlayerLevel2(black, "Player 2");
+
+                System.out.println("please select AI Level\n1 - Level 1\n2 - Level 2");
+                String level = scanner.next();
+
+                switch (level){
+                    case "1":
+                        player2 = new AIPlayerLevel1(black, "Player 2");
+                        break;
+                    case "2":
+                        player2 = new AIPlayerLevel2(black, "Player 2");
+                        break;
+                }
         }
         currentPlayer = player1;
         currentKing = whiteKing;
