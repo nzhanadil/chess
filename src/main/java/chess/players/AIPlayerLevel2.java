@@ -9,10 +9,11 @@ import java.util.Map;
 public class AIPlayerLevel2 extends Player {
 
     private Map<String, Integer> hierarchy;
-    private ArrayList<int[]> excellentMoves, goodMoves, fairMoves, badMoves;
+    private ArrayList<int[]> backupMoves, excellentMoves, goodMoves, fairMoves, badMoves;
 
     public AIPlayerLevel2(String color, String name) {
         super(color, name);
+        this.backupMoves = new ArrayList<>();
         this.excellentMoves = new ArrayList<>();
         this.goodMoves = new ArrayList<>();
         this.fairMoves = new ArrayList<>();
@@ -24,7 +25,9 @@ public class AIPlayerLevel2 extends Player {
     public int[] makeMove() {
         setMoves();
 
-        if (excellentMoves.size() != 0) {
+        if (backupMoves.size() != 0) {
+            return getBestMove(backupMoves, "backup");
+        } else if (excellentMoves.size() != 0) {
             return getBestMove(excellentMoves, "best");
         } else if (goodMoves.size() != 0) {
             return getBestMove(goodMoves, "good");
@@ -45,23 +48,32 @@ public class AIPlayerLevel2 extends Player {
             String moveFrom = board[move[0]][move[1]].getSymbol();
             String moveTo = "";
 
-            if(!type.equals("bad")){
+            if(!type.equals("bad") && !type.equals("backup")){
                 bestTo = board[bestMove[2]][bestMove[3]].getSymbol();
                 moveTo = board[move[2]][move[3]].getSymbol();
             }
 
-            if (type.equals("best")) {
-                if (hierarchy.get(bestTo) < hierarchy.get(moveTo)) {
-                    bestMove = move;
-                }
-            } else if (type.equals("good")) {
-                if (hierarchy.get(bestTo) - hierarchy.get(bestFrom) < hierarchy.get(moveTo) - hierarchy.get(moveFrom)) {
-                    bestMove = move;
-                }
-            } else if (type.equals("bad")) {
-                if (hierarchy.get(bestFrom) > hierarchy.get(moveFrom)) {
-                    bestMove = move;
-                }
+            switch (type) {
+                case "best":
+                    if (hierarchy.get(bestTo) < hierarchy.get(moveTo)) {
+                        bestMove = move;
+                    }
+                    break;
+                case "good":
+                    if (hierarchy.get(bestTo) - hierarchy.get(bestFrom) < hierarchy.get(moveTo) - hierarchy.get(moveFrom)) {
+                        bestMove = move;
+                    }
+                    break;
+                case "bad":
+                    if (hierarchy.get(bestFrom) > hierarchy.get(moveFrom)) {
+                        bestMove = move;
+                    }
+                    break;
+                case "backup":
+                    if (hierarchy.get(bestFrom) < hierarchy.get(moveFrom)) {
+                        bestMove = move;
+                    }
+                    break;
             }
         }
 
@@ -69,6 +81,7 @@ public class AIPlayerLevel2 extends Player {
     }
 
     private void setMoves() {
+        backupMoves.clear();
         goodMoves.clear();
         excellentMoves.clear();
         fairMoves.clear();
@@ -77,6 +90,60 @@ public class AIPlayerLevel2 extends Player {
         for (Piece piece : allFiguresWithAvailableMoves.keySet()) {
 
             for (int[] move : allFiguresWithAvailableMoves.get(piece)) {
+                // TODO - Delete Duplicates
+                if(currentsFiguresWhichCanBeEaten.containsKey(piece) && currentsBackedUpPieces.contains(piece)){
+                    int lowest = 0;
+
+                    for(Piece opponentsPiece : currentsFiguresWhichCanBeEaten.get(piece)){
+                        if(lowest > hierarchy.get(opponentsPiece.getSymbol())){
+                            lowest = hierarchy.get(opponentsPiece.getSymbol());
+                        }
+                    }
+
+                    if(lowest < hierarchy.get(piece.getSymbol())){
+                        boolean found = false;
+                        OUTER:
+                        for (Piece[] row : board) {
+                            for (Piece p : row) {
+
+                                if (p != null && !p.getColor().equals(piece.getColor())) {
+                                    for (int[] m : p.getAllAvailableMoves()) {
+
+                                        if (Arrays.equals(m, move)) {
+                                            found = true;
+                                            break OUTER;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (!found) {
+                            backupMoves.add(new int[]{piece.getRow(), piece.getCol(), move[0], move[1]});
+                        }
+                    }
+                } else if(currentsFiguresWhichCanBeEaten.containsKey(piece)){
+                    boolean found = false;
+                    OUTER:
+                    for (Piece[] row : board) {
+                        for (Piece p : row) {
+
+                            if (p != null && !p.getColor().equals(piece.getColor())) {
+                                for (int[] m : p.getAllAvailableMoves()) {
+
+                                    if (Arrays.equals(m, move)) {
+                                        found = true;
+                                        break OUTER;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (!found) {
+                        backupMoves.add(new int[]{piece.getRow(), piece.getCol(), move[0], move[1]});
+                    }
+                }
 
                 if (board[move[0]][move[1]] != null && !opponentsBackedUpPieces.contains(board[move[0]][move[1]])) {
                     excellentMoves.add(new int[]{piece.getRow(), piece.getCol(), move[0], move[1]});
