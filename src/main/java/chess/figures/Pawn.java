@@ -34,8 +34,10 @@ public class Pawn extends Piece {
                 if (y >= 0 && y < 8 && board[forwardRow][y] != null) {
                     if (!board[forwardRow][y].getColor().equals(getColor())) {
                         allAvailableMoves.add(new int[]{forwardRow, y});
-                    } else if(!backedUpPieces.contains(board[forwardRow][y])){
-                        backedUpPieces.add(board[forwardRow][y]);
+                    } else if(getColor().equals(currentPlayer.getColor()) && (!currentsBackedUpPieces.contains(board[forwardRow][y]))){
+                        currentsBackedUpPieces.add(board[row][col]);
+                    } else if((!getColor().equals(currentPlayer.getColor())) && (!opponentsBackedUpPieces.contains(board[forwardRow][y]))){
+                        opponentsBackedUpPieces.add(board[row][col]);
                     }
                 }
             }

@@ -21,6 +21,8 @@ public class Moves {
 
                 if (Board.isCheck()) {
                     piece.getAllAvailableMoves().remove(move);
+                } else if(isForFiguresWhichCanBeEaten && tempOfMoveTo != null && !tempOfMoveTo.getColor().equals(currentPlayer.getColor())) {
+                    addCurrentsFiguresWhichCanBeEaten(piece, tempOfMoveTo);
                 }
 
                 moveFigure(move[0], move[1], actualRow, actualCol);
@@ -36,8 +38,10 @@ public class Moves {
         } else {
             if (!board[row][col].getColor().equals(piece.getColor())) {
                 piece.getAllAvailableMoves().add(new int[]{row, col});
-            } else if (!backedUpPieces.contains(board[row][col])) {
-                backedUpPieces.add(board[row][col]);
+            } else if(piece.getColor().equals(currentPlayer.getColor()) && (!currentsBackedUpPieces.contains(board[row][col]))){
+                currentsBackedUpPieces.add(board[row][col]);
+            } else if((!piece.getColor().equals(currentPlayer.getColor())) && (!opponentsBackedUpPieces.contains(board[row][col]))){
+                opponentsBackedUpPieces.add(board[row][col]);
             }
         }
     }

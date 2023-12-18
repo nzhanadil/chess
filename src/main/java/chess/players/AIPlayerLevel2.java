@@ -78,7 +78,7 @@ public class AIPlayerLevel2 extends Player {
 
             for (int[] move : allFiguresWithAvailableMoves.get(piece)) {
 
-                if (board[move[0]][move[1]] != null && !backedUpPieces.contains(board[move[0]][move[1]])) {
+                if (board[move[0]][move[1]] != null && !opponentsBackedUpPieces.contains(board[move[0]][move[1]])) {
                     excellentMoves.add(new int[]{piece.getRow(), piece.getCol(), move[0], move[1]});
                 } else if (board[move[0]][move[1]] != null && hierarchy.get(piece.getSymbol()) < hierarchy.get(board[move[0]][move[1]].getSymbol())) {
                     goodMoves.add(new int[]{piece.getRow(), piece.getCol(), move[0], move[1]});

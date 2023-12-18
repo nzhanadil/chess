@@ -23,12 +23,17 @@ public class Board {
     public static boolean isGameOver = false;
     public static Piece[][] board = new Piece[boardRows][boardCols];
     public static HashMap<Piece, ArrayList<int[]>> allFiguresWithAvailableMoves = new HashMap<>();
-    public static List<Piece> backedUpPieces = new ArrayList<>();
+    public static List<Piece> opponentsBackedUpPieces = new ArrayList<>();
+    public static List<Piece> currentsBackedUpPieces = new ArrayList<>();
+    public static HashMap<Piece, ArrayList<Piece>> currentsFiguresWhichCanBeEaten = new HashMap<>();
+    public static boolean isForFiguresWhichCanBeEaten;
     public static Scanner scanner = new Scanner(System.in);
     private static int numberOfMoves = 0;
 
     public static void setAllFiguresWIthAvailableMoves() {
         allFiguresWithAvailableMoves.clear();
+        currentsBackedUpPieces.clear();
+        opponentsBackedUpPieces.clear();
 
         for (Piece[] row : board) {
             for (Piece piece : row) {
@@ -42,16 +47,32 @@ public class Board {
         }
     }
 
+    public static void addCurrentsFiguresWhichCanBeEaten(Piece pieceWhichCanEat, Piece piece){
+        ArrayList<Piece> l = new ArrayList<>();
+
+        if(currentsFiguresWhichCanBeEaten.containsKey(piece)){
+            l = currentsFiguresWhichCanBeEaten.get(piece);
+        }
+
+        if(!l.contains(pieceWhichCanEat)){
+            l.add(pieceWhichCanEat);
+            currentsFiguresWhichCanBeEaten.put(piece, l);
+        }
+    }
+
     public static void setBackedUpPieces() {
-        backedUpPieces.clear();
+        currentsFiguresWhichCanBeEaten.clear();
+
+        isForFiguresWhichCanBeEaten = true;
 
         for (Piece[] row : board) {
             for (Piece piece : row) {
-                if (piece != null && !piece.getColor().equals(currentPlayer.getColor())) {
+                if (piece != null && piece.getColor().equals(currentPlayer.getColor())) {
                     piece.setAllAvailableMoves();
                 }
             }
         }
+        isForFiguresWhichCanBeEaten = false;
     }
 
     public static void play() {
@@ -64,7 +85,6 @@ public class Board {
 
     public static void currentPlayerMakeMove() {
         printBoard();
-        setBackedUpPieces();
         setAllFiguresWIthAvailableMoves();
 
         if (numberOfMoves > 1000) {
@@ -86,6 +106,7 @@ public class Board {
 
         moveFigure(move[0], move[1], move[2], move[3]);
         makeQueensFromPawns();
+        setBackedUpPieces();
         changeCurrentPlayer();
         numberOfMoves++;
     }
