@@ -90,7 +90,7 @@ public class AIPlayerLevel2 extends Player {
         for (Piece piece : allFiguresWithAvailableMoves.keySet()) {
 
             for (int[] move : allFiguresWithAvailableMoves.get(piece)) {
-                // TODO - Delete Duplicates
+
                 if(currentsFiguresWhichCanBeEaten.containsKey(piece) && currentsBackedUpPieces.contains(piece)){
                     int lowest = 0;
 
@@ -101,44 +101,14 @@ public class AIPlayerLevel2 extends Player {
                     }
 
                     if(lowest < hierarchy.get(piece.getSymbol())){
-                        boolean found = false;
-                        OUTER:
-                        for (Piece[] row : board) {
-                            for (Piece p : row) {
-
-                                if (p != null && !p.getColor().equals(piece.getColor())) {
-                                    for (int[] m : p.getAllAvailableMoves()) {
-
-                                        if (Arrays.equals(m, move)) {
-                                            found = true;
-                                            break OUTER;
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        boolean found = canItBeEaten(move, piece);
 
                         if (!found) {
                             backupMoves.add(new int[]{piece.getRow(), piece.getCol(), move[0], move[1]});
                         }
                     }
                 } else if(currentsFiguresWhichCanBeEaten.containsKey(piece)){
-                    boolean found = false;
-                    OUTER:
-                    for (Piece[] row : board) {
-                        for (Piece p : row) {
-
-                            if (p != null && !p.getColor().equals(piece.getColor())) {
-                                for (int[] m : p.getAllAvailableMoves()) {
-
-                                    if (Arrays.equals(m, move)) {
-                                        found = true;
-                                        break OUTER;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    boolean found = canItBeEaten(move, piece);
 
                     if (!found) {
                         backupMoves.add(new int[]{piece.getRow(), piece.getCol(), move[0], move[1]});
@@ -150,23 +120,7 @@ public class AIPlayerLevel2 extends Player {
                 } else if (board[move[0]][move[1]] != null && hierarchy.get(piece.getSymbol()) < hierarchy.get(board[move[0]][move[1]].getSymbol())) {
                     goodMoves.add(new int[]{piece.getRow(), piece.getCol(), move[0], move[1]});
                 } else if (board[move[0]][move[1]] == null) {
-                    boolean found = false;
-
-                    OUTER:
-                    for (Piece[] row : board) {
-                        for (Piece p : row) {
-
-                            if (p != null && !p.getColor().equals(piece.getColor())) {
-                                for (int[] m : p.getAllAvailableMoves()) {
-
-                                    if (Arrays.equals(m, move)) {
-                                        found = true;
-                                        break OUTER;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    boolean found = canItBeEaten(move, piece);
 
                     if (!found) {
                         fairMoves.add(new int[]{piece.getRow(), piece.getCol(), move[0], move[1]});
@@ -176,5 +130,22 @@ public class AIPlayerLevel2 extends Player {
                 }
             }
         }
+    }
+
+    private boolean canItBeEaten(int[] move, Piece piece){
+        for (Piece[] row : board) {
+            for (Piece p : row) {
+
+                if (p != null && !p.getColor().equals(piece.getColor())) {
+                    for (int[] m : p.getAllAvailableMoves()) {
+
+                        if (Arrays.equals(m, move)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
